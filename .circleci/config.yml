@@ -12,6 +12,7 @@ jobs:
       - run: docker-compose build
       - run: docker-compose up -d
       - run: docker ps
+      
   deploy:
     docker:
       - image: cimg/base:2023.04
@@ -20,9 +21,14 @@ jobs:
       - checkout
       - run: echo "Hello World!"
 
+  
+
 workflows:
   test-workflow:
     jobs:
       - build
-      - deploy:
+      - hold:
           type: approval
+      - deploy:
+          requires: 
+            - hold
