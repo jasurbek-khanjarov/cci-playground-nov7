@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  ruby:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    depends_on: 
+      - mysql
+      - redis
+      - selenium
+
+  mysql:
+    image: mysql:8.0.33
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+
+  redis:
+    image: redis:7.0.13
+
+  selenium:
+    image: selenium/standalone-chrome-debug
+    ports:
+      - "4444:4444"
+      - "5900:5900"
