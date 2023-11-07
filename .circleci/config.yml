@@ -4,7 +4,7 @@ jobs:
   build:
     docker:
       - image: cimg/base:2023.04
-    resource_class: 2xlarge
+    resource_class: xlarge
     steps:
       - checkout
       - setup_remote_docker:
@@ -12,8 +12,17 @@ jobs:
       - run: docker-compose build
       - run: docker-compose up -d
       - run: docker ps
+  deploy:
+    docker:
+      - image: cimg/base:2023.04
+    resource_class: xlarge
+    steps:
+      - checkout
+      - run: echo "Hello World!"
 
 workflows:
   test-workflow:
     jobs:
       - build
+      - deploy:
+          type: approval
